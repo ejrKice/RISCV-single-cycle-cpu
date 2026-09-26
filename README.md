@@ -2,7 +2,7 @@
 
 
 
-A single-cycle RISC-V processor written in Verilog, targeting the Digilent Basys 3 FPGA.
+A single-cycle RISC-V processor written in Verilog, planning to implement on Digilent Basys 3 FPGA.
 
 
 
