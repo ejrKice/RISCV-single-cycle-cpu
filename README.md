@@ -8,13 +8,13 @@ A single-cycle RISC-V processor written in Verilog, planning to implement on Dig
 
 \## Status
 
-\- \[x] R-type instructions (add, sub, and, or, slt), verified with a self-checking testbench in Vivado
+\- \[x] R-type instructions (add, sub, and, or, slt)
 
-\- \[ ] I-type (addi, lw)
+\- \[x] addi, with sign-extended immediates 
 
-\- \[ ] S-type (sw)
+\- \[ ] lw / sw
 
-\- \[ ] B-type (beq)
+\- \[ ] beq
 
 \- \[ ] FPGA bring-up on Basys 3
 
