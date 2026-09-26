@@ -33,21 +33,23 @@ module tb_RISCV_TOP;
 	initial begin
 		#20 reset = 0;
 		
-		dut.RF.Registers[1] = 32'd5;
-		dut.RF.Registers[2] = 32'd3;
 
-		#80;
+		#180;
 	
-
+        check(1, 32'd5); // addi loaded 5 into register 1
+        check(2, 32'd3); // addi loaded 3 into register 2
 		check(3, 32'd8);  // add x3 x1 x2      8 in register 3
 		check(4, 32'd2);  // subtract x4 x1 x2  2 in register 4
-        	check(5, 32'd1);  // and x5 x1 x2     0101 & 0011 == 0001 (1)
-        	check(6, 32'd7); // or x6 x1 x2      0101 | 0011 == 0111 (7) 
-        	check(7, 32'd1);  // slt x7 x2 x1   3 < 5 true 1
-        	check(8, 32'd0);  // slt x8 x1 x2    5 < 3  false 0
-        	check(9, 32'hFFFFFFFE);  // sub x9 x2 x1  -2 hex (FFFFFFFE)
-        	check(10, 32'd1);     // slt  x10 x9 x1  -2 < 5 (signed)
-       		check(0, 32'd0);   // checking that register 0 stayed 0
+        check(5, 32'd1);  // and x5 x1 x2     0101 & 0011 == 0001 (1)
+        check(6, 32'd7); // or x6 x1 x2      0101 | 0011 == 0111 (7) 
+        check(7, 32'd1);  // slt x7 x2 x1   3 < 5 true 1
+        check(8, 32'd0);  // slt x8 x1 x2    5 < 3  false 0
+        check(9, 32'hFFFFFFFE);  // sub x9 x2 x1  -2 hex (FFFFFFFE)
+        check(10, 32'd1);     // slt  x10 x9 x1  -2 < 5 (signed)
+        check(11, 32'd2);
+        check(12, 32'hFFFFFFFF);
+        check(13, 32'd108);
+       	check(0, 32'd0);   // checking that register 0 stayed 0
 
 		if (errors == 0) $display("ALL TESTS PASSED");
 		else $display("%0d TESTS FAILED", errors);

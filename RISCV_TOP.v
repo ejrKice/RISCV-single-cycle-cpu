@@ -1,3 +1,5 @@
+`default_nettype none
+
 module RISCV_TOP(clk, reset);
 	
 	input clk, reset;
@@ -7,6 +9,8 @@ module RISCV_TOP(clk, reset);
 	wire [3:0] ALUControl;
 	wire [1:0] ALUOp;
 	wire branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite, zero;
+	wire [31:0] imm_out, ALU_b;
+	wire [1:0] ImmSrc;
 
 
 	Program_Counter PC_reg (
@@ -34,8 +38,17 @@ module RISCV_TOP(clk, reset);
 		.MemWrite(MemWrite), 
 		.ALUScr(ALUSrc), 
 		.RegWrite(RegWrite), 
-		.ALUOp_out(ALUOp)
+		.ALUOp_out(ALUOp),
+		.ImmSrc(ImmSrc)
 	);
+	
+	Imm_Gen IMMGEN(
+	   .instr(instruction),
+	   .ImmSrc(ImmSrc),
+	   .imm_out(imm_out)
+	);
+	
+	assign ALU_b = ALUSrc ? imm_out : read_data2;
 
 
 
@@ -63,7 +76,7 @@ module RISCV_TOP(clk, reset);
 
 	ALU ALU_inst(
 		.a(read_data1), 
-		.b(read_data2) , 
+		.b(ALU_b) , 
 		.zero(zero), 
 		.ALUControl_in(ALUControl), 
 		.ALU_result(ALU_result)
@@ -85,3 +98,5 @@ module RISCV_TOP(clk, reset);
 
 
 endmodule
+
+`default_nettype wire
