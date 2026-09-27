@@ -28,7 +28,23 @@ module Control_unit(OPcode, branch, MemRead, MemtoReg, MemWrite, ALUScr, RegWrit
 			     ALUOp_out = 2'b00;
 			     ImmSrc = 2'b00;
 			end
-			
+			7'b0000011 : begin  // I type
+			     RegWrite = 1'b1;
+			     ALUScr = 1'b1;
+			     MemRead = 1'b1;
+			     MemWrite = 1'b0;
+			     MemtoReg = 1'b1;
+			     ALUOp_out = 2'b00;
+			     ImmSrc = 2'b00; //I type
+			end
+            7'b0100011 : begin  // S type
+                 RegWrite = 1'b0;
+			     ALUScr = 1'b1;
+			     MemRead = 1'b0;
+			     MemWrite = 1'b1;
+			     ALUOp_out = 2'b00;
+			     ImmSrc = 2'b01; // s-type	
+			 end
 			 
 		endcase
 	end

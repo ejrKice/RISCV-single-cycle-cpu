@@ -28,13 +28,23 @@ module tb_RISCV_TOP;
 			end
 		end
 	endtask
-
+	
+	task Dcheck(input [7:0] d, input [31:0] dataexpected );
+	   begin
+	       if(dut.Data_Memory.Dmemory[d[7:2]] === dataexpected)
+	           $display("PASS mem[%0d] = 0x%08h", d, dut.Data_Memory.Dmemory[d[7:2]]);
+           else begin
+				$display("Fail  mem[%0d] = 0x%08h  (expected 0x%08h)", d, dut.Data_Memory.Dmemory[d[7:2]], dataexpected);
+				errors = errors + 1;
+		   end
+		end
+	endtask
 
 	initial begin
 		#20 reset = 0;
 		
 
-		#180;
+		#300;
 	
         check(1, 32'd5); // addi loaded 5 into register 1
         check(2, 32'd3); // addi loaded 3 into register 2
@@ -49,7 +59,15 @@ module tb_RISCV_TOP;
         check(11, 32'd2);
         check(12, 32'hFFFFFFFF);
         check(13, 32'd108);
-       	check(0, 32'd0);   // checking that register 0 stayed 0
+        check(15, 32'hFFFFFFFE); //lw  mem0
+        check(16, 32'd108);  // lw  mem4
+        check(17, 32'd108);  // lw  mem8
+        Dcheck(0,32'd8);
+        Dcheck(4, 32'hFFFFFFFE);
+        Dcheck(12, 32'd108);
+        Dcheck(8, 32'd0);
+       	check(0, 32'd0);   // checking that register 0 stayed 0  mem12
+       	
 
 		if (errors == 0) $display("ALL TESTS PASSED");
 		else $display("%0d TESTS FAILED", errors);

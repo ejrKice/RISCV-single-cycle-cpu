@@ -6,13 +6,11 @@ A single-cycle RISC-V processor written in Verilog, planning to implement on Dig
 
 
 
-\## Status
-
 \- \[x] R-type instructions (add, sub, and, or, slt)
 
-\- \[x] addi, with sign-extended immediates 
+\- \[x] addi, with sign-extended immediates
 
-\- \[ ] lw / sw
+\- \[x] lw / sw, verified by checking both registers and data memory
 
 \- \[ ] beq
 

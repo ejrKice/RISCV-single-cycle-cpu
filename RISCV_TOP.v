@@ -2,7 +2,7 @@
 
 module RISCV_TOP(clk, reset);
 	
-	input clk, reset;
+	input wire clk, reset;
 
 	wire [31:0] PC_current, PC_next, instruction;
 	wire [31:0] read_data1, read_data2, ALU_result, Read_data_mem;
@@ -11,6 +11,7 @@ module RISCV_TOP(clk, reset);
 	wire branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite, zero;
 	wire [31:0] imm_out, ALU_b;
 	wire [1:0] ImmSrc;
+	wire [31:0] WriteBack;
 
 
 	Program_Counter PC_reg (
@@ -58,7 +59,7 @@ module RISCV_TOP(clk, reset);
 		.rr1(instruction[19:15]), 
 		.rr2(instruction[24:20]), 
 		.wr(instruction[11:7]), 
-		.wdata(ALU_result), 
+		.wdata(WriteBack), 
 		.regWrite(RegWrite), 
 		.rd1(read_data1), 
 		.rd2(read_data2)
@@ -93,6 +94,7 @@ module RISCV_TOP(clk, reset);
 		.Read_data(Read_data_mem)
 	);
 
+    assign WriteBack = MemtoReg ? Read_data_mem : ALU_result;
 
 
 
